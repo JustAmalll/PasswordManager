@@ -15,18 +15,11 @@ fun SearchScreen(
 ) {
 
     val searchedTasks by searchViewModel.searchedTasks.collectAsState()
-    val searchTextState: String by searchViewModel.searchTextState
 
     Scaffold(
         topBar = {
             SearchTopBar(
-                text = searchTextState,
-                onSearchQueryChange = {
-                    searchViewModel.searchDatabase(searchQuery = it)
-                },
-                onSearchClicked = {
-                    searchViewModel.searchDatabase(searchQuery = it)
-                },
+                searchViewModel = searchViewModel,
                 navController = navController
             )
         },

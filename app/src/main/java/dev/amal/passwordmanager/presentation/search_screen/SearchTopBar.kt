@@ -3,7 +3,6 @@ package dev.amal.passwordmanager.presentation.search_screen
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -19,24 +18,7 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun SearchTopBar(
-    text: String,
-    onSearchQueryChange: (String) -> Unit,
-    onSearchClicked: (String) -> Unit,
-    navController: NavHostController
-) {
-    SearchWidget(
-        text = text,
-        onSearchQueryChange = onSearchQueryChange,
-        onSearchClicked = onSearchClicked,
-        navController = navController
-    )
-}
-
-@Composable
-fun SearchWidget(
-    text: String,
-    onSearchQueryChange: (String) -> Unit,
-    onSearchClicked: (String) -> Unit,
+    searchViewModel: SearchViewModel,
     navController: NavHostController
 ) {
     OutlinedTextField(
@@ -44,8 +26,10 @@ fun SearchWidget(
             .fillMaxWidth()
             .padding(top = 10.dp)
             .padding(horizontal = 10.dp),
-        value = text,
-        onValueChange = { onSearchQueryChange(it) },
+        value = searchViewModel.searchTextState.value,
+        onValueChange = {
+            searchViewModel.onEvent(SearchItemEvent.OnSearchQueryChange(it))
+        },
         shape = RoundedCornerShape(30.dp),
         placeholder = {
             Text(
@@ -68,7 +52,7 @@ fun SearchWidget(
         },
         trailingIcon = {
             IconButton(
-                onClick = { onSearchQueryChange("") }
+                onClick = { }
             ) {
                 Icon(
                     imageVector = Icons.Filled.Close,
@@ -79,9 +63,6 @@ fun SearchWidget(
         },
         keyboardOptions = KeyboardOptions(
             imeAction = ImeAction.Search
-        ),
-        keyboardActions = KeyboardActions(
-            onSearch = { onSearchClicked(text) }
         ),
         colors = TextFieldDefaults.textFieldColors(
             focusedIndicatorColor = Color.Transparent,

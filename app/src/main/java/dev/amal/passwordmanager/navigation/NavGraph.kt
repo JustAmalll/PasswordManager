@@ -1,16 +1,15 @@
 package dev.amal.passwordmanager.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.amal.passwordmanager.presentation.add_password.AddPasswordScreen
 import dev.amal.passwordmanager.presentation.details_screen.DetailsScreen
 import dev.amal.passwordmanager.presentation.home.HomeScreen
 import dev.amal.passwordmanager.presentation.search_screen.SearchScreen
-import dev.amal.passwordmanager.presentation.viewmodel.SharedViewModel
 import dev.amal.passwordmanager.utils.Constants.DETAILS_ARGUMENT_KEY
 
 @Composable

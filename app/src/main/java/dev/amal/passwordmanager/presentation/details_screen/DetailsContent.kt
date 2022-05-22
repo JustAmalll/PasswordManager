@@ -1,6 +1,7 @@
 package dev.amal.passwordmanager.presentation.details_screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -93,6 +94,8 @@ fun DetailsContent(
             ) {
                 Column(
                     modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(onClick = {})
                         .padding(start = 14.dp)
                         .padding(vertical = 14.dp)
                 ) {
@@ -104,6 +107,7 @@ fun DetailsContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .clickable(onClick = {})
                         .padding(start = 14.dp, end = 8.dp)
                         .padding(vertical = 14.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -136,6 +140,8 @@ fun DetailsContent(
                 Divider()
                 Column(
                     modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(onClick = {})
                         .padding(start = 14.dp)
                         .padding(vertical = 14.dp)
                 ) {
@@ -145,25 +151,23 @@ fun DetailsContent(
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Box {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color.White)
-                        .padding(start = 14.dp)
-                        .padding(vertical = 14.dp),
-                ) {
-                    Text(
-                        text = "Password Security",
-                        color = TextGray,
-                        fontSize = 14.sp,
-                    )
-                    Spacer(modifier = Modifier.height(2.dp))
-                    Text(
-                        text = "Strong Password",
-                        color = Color.Green
-                    )
-                }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .padding(start = 14.dp)
+                    .padding(vertical = 14.dp),
+            ) {
+                Text(
+                    text = "Password Security",
+                    color = TextGray,
+                    fontSize = 14.sp,
+                )
+                Spacer(modifier = Modifier.height(2.dp))
+                Text(
+                    text = "Strong Password",
+                    color = Color.Green
+                )
             }
         }
     }

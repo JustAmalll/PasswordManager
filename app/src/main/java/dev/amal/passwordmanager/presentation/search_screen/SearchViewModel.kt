@@ -4,12 +4,10 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.amal.passwordmanager.data.models.Password
 import dev.amal.passwordmanager.data.repositories.PasswordRepository
 import dev.amal.passwordmanager.utils.RequestState
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repository: PasswordRepository
-): ViewModel() {
+) : ViewModel() {
 
     val searchTextState: MutableState<String> = mutableStateOf("")
 
@@ -29,7 +27,24 @@ class SearchViewModel @Inject constructor(
         MutableStateFlow<RequestState<List<Password>>>(RequestState.Idle)
     val searchedTasks: StateFlow<RequestState<List<Password>>> = _searchTasks
 
-    fun searchDatabase(searchQuery: String) {
+    private var searchJob: Job? = null
+
+    fun onEvent(event: SearchItemEvent) {
+        when (event) {
+            is SearchItemEvent.OnSearchQueryChange -> {
+                searchTextState.value = event.query
+                searchJob?.cancel()
+                searchJob = viewModelScope.launch {
+                    delay(200L)
+                    searchDatabase()
+                }
+            }
+        }
+    }
+
+    private fun searchDatabase(
+        searchQuery: String = searchTextState.value
+    ) {
         _searchTasks.value = RequestState.Loading
         try {
             viewModelScope.launch {
