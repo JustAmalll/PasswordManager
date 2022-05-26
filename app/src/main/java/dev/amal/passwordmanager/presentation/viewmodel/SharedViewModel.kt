@@ -58,6 +58,18 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+    fun deleteTask() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val password = Password(
+                title = title.value,
+                email = email.value,
+                password = password.value,
+                website = website.value,
+            )
+            repository.deleteTask(password = password)
+        }
+    }
+
     fun validateFields(): Boolean =
         title.value.isNotEmpty() && email.value.isNotEmpty() && password.value.isNotEmpty()
 }

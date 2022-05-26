@@ -15,6 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import dev.amal.passwordmanager.ui.theme.Gray
+import dev.amal.passwordmanager.ui.theme.MainGray
 
 @Composable
 fun SearchTopBar(
@@ -35,7 +37,7 @@ fun SearchTopBar(
             Text(
                 modifier = Modifier.alpha(ContentAlpha.medium),
                 text = "Search here ...",
-                color = Color.White
+                color = Gray
             )
         },
         singleLine = true,
@@ -65,6 +67,7 @@ fun SearchTopBar(
             imeAction = ImeAction.Search
         ),
         colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = MainGray,
             focusedIndicatorColor = Color.Transparent,
             disabledIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,

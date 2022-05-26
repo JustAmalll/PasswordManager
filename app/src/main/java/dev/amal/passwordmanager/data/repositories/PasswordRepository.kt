@@ -23,4 +23,7 @@ class PasswordRepository @Inject constructor(
     fun searchDatabase(searchQuery: String): Flow<List<Password>> =
         passwordDao.searchDatabase(searchQuery = searchQuery)
 
+    suspend fun deleteTask(password: Password) {
+        passwordDao.deletePassword(password = password)
+    }
 }

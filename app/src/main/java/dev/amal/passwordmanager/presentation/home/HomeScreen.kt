@@ -4,13 +4,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,6 +21,9 @@ import dev.amal.passwordmanager.StandardToolbar
 import dev.amal.passwordmanager.navigation.Screen
 import dev.amal.passwordmanager.presentation.common.ListContent
 import dev.amal.passwordmanager.presentation.viewmodel.SharedViewModel
+import dev.amal.passwordmanager.ui.theme.Gray
+import dev.amal.passwordmanager.ui.theme.MainGray
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
@@ -58,17 +63,16 @@ fun HomeScreen(
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Search")
             }
+        },
+        content = {
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                SearchButton(navController = navController)
+                ListContent(items = allItems, navController = navController)
+            }
         }
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
-        ) {
-            SearchButton(navController = navController)
-            ListContent(items = allItems, navController = navController)
-        }
-    }
+    )
 }
 
 @Composable
@@ -76,12 +80,15 @@ fun SearchButton(
     navController: NavHostController
 ) {
     Button(
+        modifier = Modifier
+            .padding(top = 6.dp)
+            .padding(horizontal = 12.dp),
         onClick = {
             navController.navigate(Screen.SearchScreen.route)
         },
         colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color.LightGray,
-            contentColor = Color.White
+            backgroundColor = MainGray,
+            contentColor = Gray
         ),
         shape = RoundedCornerShape(size = 18.dp)
     ) {
@@ -98,4 +105,3 @@ fun SearchButton(
         }
     }
 }
-

@@ -12,3 +12,6 @@ val Green = Color(0xFFD0F4DE)
 
 val TextGray = Color(0xFF808080)
 val MediumGray = Color(0xFF9C9C9C)
+
+val MainGray = Color(0xFFEEEEEE)
+val Gray = Color(0xFF747477)

@@ -28,6 +28,7 @@ import dev.amal.passwordmanager.navigation.Screen
 import dev.amal.passwordmanager.presentation.viewmodel.SharedViewModel
 import dev.amal.passwordmanager.ui.theme.BackGroundColor
 import dev.amal.passwordmanager.ui.theme.Green
+import dev.amal.passwordmanager.ui.theme.MainGray
 
 @Composable
 fun AddPasswordScreen(
@@ -71,7 +72,7 @@ fun AddPasswordScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(BackGroundColor)
+                .background(MainGray)
                 .padding(horizontal = 16.dp)
         ) {
             Spacer(modifier = Modifier.height(16.dp))
