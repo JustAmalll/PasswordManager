@@ -1,19 +1,17 @@
 package dev.amal.passwordmanager.presentation.add_password
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -25,50 +23,59 @@ import androidx.navigation.NavHostController
 import dev.amal.passwordmanager.R
 import dev.amal.passwordmanager.StandardToolbar
 import dev.amal.passwordmanager.navigation.Screen
-import dev.amal.passwordmanager.presentation.viewmodel.SharedViewModel
-import dev.amal.passwordmanager.ui.theme.BackGroundColor
 import dev.amal.passwordmanager.ui.theme.Green
 import dev.amal.passwordmanager.ui.theme.MainGray
+import dev.amal.passwordmanager.utils.toast
+import kotlinx.coroutines.flow.collect
 
 @Composable
 fun AddPasswordScreen(
     navController: NavHostController,
-    sharedViewModel: SharedViewModel = hiltViewModel()
+    addPasswordViewModel: AddPasswordViewModel = hiltViewModel()
 ) {
 
     var showPassword by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
 
-    Scaffold(topBar = {
-        StandardToolbar(
-            onCloseClicked = { navController.popBackStack() },
-            showBackArrow = true,
-            navActions = {
-                IconButton(onClick = {
-                    if (sharedViewModel.validateFields()) {
-                        sharedViewModel.addItem()
-                        navController.navigate(Screen.HomeScreen.route)
-                    } else {
-                        Toast.makeText(context, "Validate fields.", Toast.LENGTH_LONG).show()
+    val state = addPasswordViewModel.state
+
+    LaunchedEffect(key1 = context) {
+        addPasswordViewModel.validationEvents.collect { event ->
+            when (event) {
+                is AddPasswordViewModel.ValidationEvent.Success -> {
+                    navController.navigate(Screen.HomeScreen.route)
+                    toast("Password added successful", context)
+                }
+            }
+        }
+    }
+
+    Scaffold(
+        topBar = {
+            StandardToolbar(
+                onCloseClicked = { navController.popBackStack() },
+                showBackArrow = true,
+                navActions = {
+                    IconButton(onClick = {
+                        addPasswordViewModel.onEvent(AddPasswordFormEvent.Submit)
+                    }) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Save changes",
+                            tint = MaterialTheme.colors.onBackground
+                        )
                     }
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.Check,
-                        contentDescription = "Save changes",
-                        tint = MaterialTheme.colors.onBackground
+                },
+                title = {
+                    Text(
+                        text = "Add Password",
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colors.onBackground
                     )
                 }
-            },
-            title = {
-                Text(
-                    text = "Add Password",
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onBackground
-                )
-            }
-        )
-    }) {
+            )
+        }) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -76,38 +83,68 @@ fun AddPasswordScreen(
                 .padding(horizontal = 16.dp)
         ) {
             Spacer(modifier = Modifier.height(16.dp))
+
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = sharedViewModel.title.value,
-                onValueChange = { sharedViewModel.title.value = it },
+                value = state.title,
+                onValueChange = {
+                    addPasswordViewModel.onEvent(AddPasswordFormEvent.TitleChanged(it))
+                },
+                isError = state.titleError != null,
                 label = { Text(text = "Title") },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White
                 )
             )
+            if (state.titleError != null) {
+                Text(
+                    text = state.titleError,
+                    color = MaterialTheme.colors.error,
+                    modifier = Modifier.align(Alignment.End)
+                )
+            }
+
             Spacer(modifier = Modifier.height(22.dp))
+
             Text(
                 text = "Password Details",
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             )
+
             Spacer(modifier = Modifier.height(16.dp))
+
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = sharedViewModel.email.value,
-                onValueChange = { sharedViewModel.email.value = it },
+                value = state.email,
+                onValueChange = {
+                    addPasswordViewModel.onEvent(AddPasswordFormEvent.EmailChanged(it))
+                },
+                isError = state.emailError != null,
                 label = { Text(text = "Email or Username") },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White
                 ),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
             )
+            if (state.emailError != null) {
+                Text(
+                    text = state.emailError,
+                    color = MaterialTheme.colors.error,
+                    modifier = Modifier.align(Alignment.End)
+                )
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
+
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = sharedViewModel.password.value,
-                onValueChange = { sharedViewModel.password.value = it },
+                value = state.password,
+                onValueChange = {
+                    addPasswordViewModel.onEvent(AddPasswordFormEvent.PasswordChanged(it))
+                },
+                isError = state.passwordError != null,
                 label = { Text(text = "Password") },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White
@@ -116,7 +153,7 @@ fun AddPasswordScreen(
                 visualTransformation = if (showPassword) VisualTransformation.None
                 else PasswordVisualTransformation(),
                 trailingIcon = {
-                    if (sharedViewModel.password.value.isNotEmpty()) {
+                    if (state.password.isNotEmpty()) {
                         val image =
                             if (showPassword) painterResource(id = R.drawable.ic_visibility_off)
                             else painterResource(id = R.drawable.ic_visibility)
@@ -129,7 +166,16 @@ fun AddPasswordScreen(
                     }
                 }
             )
+            if (state.passwordError != null) {
+                Text(
+                    text = state.passwordError,
+                    color = MaterialTheme.colors.error,
+                    modifier = Modifier.align(Alignment.End)
+                )
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
+
             Button(
                 onClick = {},
                 modifier = Modifier.fillMaxWidth(),
@@ -137,16 +183,28 @@ fun AddPasswordScreen(
             ) {
                 Text(text = "Generate Password")
             }
+
             Spacer(modifier = Modifier.height(16.dp))
+
             TextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = sharedViewModel.website.value,
-                onValueChange = { sharedViewModel.website.value = it },
+                value = state.website,
+                onValueChange = {
+                    addPasswordViewModel.onEvent(AddPasswordFormEvent.WebsiteChanged(it))
+                },
                 label = { Text(text = "Website or App Name") },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White
-                )
+                ),
+                isError = state.passwordError != null
             )
+            if (state.websiteError != null) {
+                Text(
+                    text = state.websiteError,
+                    color = MaterialTheme.colors.error,
+                    modifier = Modifier.align(Alignment.End)
+                )
+            }
         }
     }
 }

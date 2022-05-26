@@ -1,5 +1,8 @@
 package dev.amal.passwordmanager.presentation.details_screen
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,16 +16,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.NavHostController
 import dev.amal.passwordmanager.R
 import dev.amal.passwordmanager.StandardToolbar
 import dev.amal.passwordmanager.data.models.Password
 import dev.amal.passwordmanager.ui.theme.BackGroundColor
 import dev.amal.passwordmanager.ui.theme.TextGray
+import dev.amal.passwordmanager.utils.copyText
 import java.util.*
 
 @Composable
@@ -31,6 +37,7 @@ fun DetailsContent(
     selectedItem: Password
 ) {
 
+    val context = LocalContext.current
     var showPassword by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -95,7 +102,9 @@ fun DetailsContent(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(onClick = {})
+                        .clickable(onClick = {
+                            copyText(selectedItem.email, context)
+                        })
                         .padding(start = 14.dp)
                         .padding(vertical = 14.dp)
                 ) {
@@ -107,7 +116,9 @@ fun DetailsContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(onClick = {})
+                        .clickable(onClick = {
+                            copyText(selectedItem.password, context)
+                        })
                         .padding(start = 14.dp, end = 8.dp)
                         .padding(vertical = 14.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -141,7 +152,9 @@ fun DetailsContent(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable(onClick = {})
+                        .clickable(onClick = {
+                            copyText(selectedItem.email, context)
+                        })
                         .padding(start = 14.dp)
                         .padding(vertical = 14.dp)
                 ) {
@@ -172,3 +185,4 @@ fun DetailsContent(
         }
     }
 }
+
