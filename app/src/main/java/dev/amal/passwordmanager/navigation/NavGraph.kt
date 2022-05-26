@@ -13,7 +13,10 @@ import dev.amal.passwordmanager.presentation.search_screen.SearchScreen
 import dev.amal.passwordmanager.utils.Constants.DETAILS_ARGUMENT_KEY
 
 @Composable
-fun SetupNavGraph(navController: NavHostController) {
+fun SetupNavGraph(
+    navController: NavHostController,
+    showSnackBar: (String) -> Unit
+) {
     NavHost(
         navController = navController,
         startDestination = Screen.HomeScreen.route
@@ -27,13 +30,13 @@ fun SetupNavGraph(navController: NavHostController) {
                 type = NavType.IntType
             })
         ) {
-            DetailsScreen(navController = navController)
+            DetailsScreen(navController = navController, showSnackBar = showSnackBar)
         }
         composable(route = Screen.SearchScreen.route) {
             SearchScreen(navController = navController)
         }
         composable(route = Screen.AddPassword.route) {
-            AddPasswordScreen(navController = navController)
+            AddPasswordScreen(navController = navController, showSnackBar = showSnackBar)
         }
     }
 }

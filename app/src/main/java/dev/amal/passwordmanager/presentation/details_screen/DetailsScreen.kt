@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 
 @Composable
 fun DetailsScreen(
+    showSnackBar: (String) -> Unit,
     detailsViewModel: DetailsViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
@@ -15,7 +16,11 @@ fun DetailsScreen(
     val selectedItem by detailsViewModel.selectedItem.collectAsState()
 
     selectedItem?.let { item ->
-        DetailsContent(navController = navController, selectedItem = item)
+        DetailsContent(
+            navController = navController,
+            selectedItem = item,
+            showSnackBar = showSnackBar
+        )
     }
 
 }

@@ -3,20 +3,15 @@ package dev.amal.passwordmanager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarDuration
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.amal.passwordmanager.navigation.SetupNavGraph
-import dev.amal.passwordmanager.presentation.viewmodel.SharedViewModel
 import dev.amal.passwordmanager.ui.theme.PasswordManagerTheme
+import dev.amal.passwordmanager.utils.SnackBarAppState
+import dev.amal.passwordmanager.utils.rememberSnackBarAppState
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -27,8 +22,20 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             PasswordManagerTheme {
+
+                val appState: SnackBarAppState = rememberSnackBarAppState()
                 navController = rememberNavController()
-                SetupNavGraph(navController = navController)
+
+                Scaffold(
+                    scaffoldState = appState.scaffoldState
+                ) {
+                    SetupNavGraph(
+                        navController = navController,
+                        showSnackBar = { message ->
+                            appState.showSnackBar(message = message, duration = SnackbarDuration.Short)
+                        }
+                    )
+                }
             }
         }
     }

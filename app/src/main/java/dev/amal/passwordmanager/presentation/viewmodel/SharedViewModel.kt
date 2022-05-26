@@ -33,18 +33,6 @@ class SharedViewModel @Inject constructor(
         getAllItems()
     }
 
-    fun addItem() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val password = Password(
-                title = title.value,
-                email = email.value,
-                password = password.value,
-                website = website.value,
-            )
-            repository.addItem(password = password)
-        }
-    }
-
     private fun getAllItems() {
         _allItems.value = RequestState.Loading
         try {
@@ -70,6 +58,4 @@ class SharedViewModel @Inject constructor(
         }
     }
 
-    fun validateFields(): Boolean =
-        title.value.isNotEmpty() && email.value.isNotEmpty() && password.value.isNotEmpty()
 }

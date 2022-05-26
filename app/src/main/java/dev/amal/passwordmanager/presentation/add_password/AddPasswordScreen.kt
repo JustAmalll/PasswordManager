@@ -25,33 +25,34 @@ import dev.amal.passwordmanager.StandardToolbar
 import dev.amal.passwordmanager.navigation.Screen
 import dev.amal.passwordmanager.ui.theme.Green
 import dev.amal.passwordmanager.ui.theme.MainGray
-import dev.amal.passwordmanager.utils.toast
 import kotlinx.coroutines.flow.collect
 
 @Composable
 fun AddPasswordScreen(
+    showSnackBar: (String) -> Unit,
     navController: NavHostController,
     addPasswordViewModel: AddPasswordViewModel = hiltViewModel()
 ) {
 
     var showPassword by remember { mutableStateOf(false) }
-
     val context = LocalContext.current
-
     val state = addPasswordViewModel.state
+
+    val snackBarHostState = rememberScaffoldState()
 
     LaunchedEffect(key1 = context) {
         addPasswordViewModel.validationEvents.collect { event ->
             when (event) {
                 is AddPasswordViewModel.ValidationEvent.Success -> {
+                    showSnackBar("Password added successfully")
                     navController.navigate(Screen.HomeScreen.route)
-                    toast("Password added successful", context)
                 }
             }
         }
     }
 
     Scaffold(
+        scaffoldState = snackBarHostState,
         topBar = {
             StandardToolbar(
                 onCloseClicked = { navController.popBackStack() },
@@ -75,136 +76,138 @@ fun AddPasswordScreen(
                     )
                 }
             )
-        }) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MainGray)
-                .padding(horizontal = 16.dp)
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
+        },
+        content = {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(MainGray)
+                    .padding(horizontal = 16.dp)
+            ) {
+                Spacer(modifier = Modifier.height(16.dp))
 
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.title,
-                onValueChange = {
-                    addPasswordViewModel.onEvent(AddPasswordFormEvent.TitleChanged(it))
-                },
-                isError = state.titleError != null,
-                label = { Text(text = "Title") },
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.title,
+                    onValueChange = {
+                        addPasswordViewModel.onEvent(AddPasswordFormEvent.TitleChanged(it))
+                    },
+                    isError = state.titleError != null,
+                    label = { Text(text = "Title") },
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.White
+                    )
                 )
-            )
-            if (state.titleError != null) {
+                if (state.titleError != null) {
+                    Text(
+                        text = state.titleError,
+                        color = MaterialTheme.colors.error,
+                        modifier = Modifier.align(Alignment.End)
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(22.dp))
+
                 Text(
-                    text = state.titleError,
-                    color = MaterialTheme.colors.error,
-                    modifier = Modifier.align(Alignment.End)
+                    text = "Password Details",
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp
                 )
-            }
 
-            Spacer(modifier = Modifier.height(22.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            Text(
-                text = "Password Details",
-                color = Color.Black,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
-            )
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.email,
-                onValueChange = {
-                    addPasswordViewModel.onEvent(AddPasswordFormEvent.EmailChanged(it))
-                },
-                isError = state.emailError != null,
-                label = { Text(text = "Email or Username") },
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White
-                ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-            )
-            if (state.emailError != null) {
-                Text(
-                    text = state.emailError,
-                    color = MaterialTheme.colors.error,
-                    modifier = Modifier.align(Alignment.End)
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.email,
+                    onValueChange = {
+                        addPasswordViewModel.onEvent(AddPasswordFormEvent.EmailChanged(it))
+                    },
+                    isError = state.emailError != null,
+                    label = { Text(text = "Email or Username") },
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.White
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                 )
-            }
+                if (state.emailError != null) {
+                    Text(
+                        text = state.emailError,
+                        color = MaterialTheme.colors.error,
+                        modifier = Modifier.align(Alignment.End)
+                    )
+                }
 
-            Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.password,
-                onValueChange = {
-                    addPasswordViewModel.onEvent(AddPasswordFormEvent.PasswordChanged(it))
-                },
-                isError = state.passwordError != null,
-                label = { Text(text = "Password") },
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White
-                ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                visualTransformation = if (showPassword) VisualTransformation.None
-                else PasswordVisualTransformation(),
-                trailingIcon = {
-                    if (state.password.isNotEmpty()) {
-                        val image =
-                            if (showPassword) painterResource(id = R.drawable.ic_visibility_off)
-                            else painterResource(id = R.drawable.ic_visibility)
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.password,
+                    onValueChange = {
+                        addPasswordViewModel.onEvent(AddPasswordFormEvent.PasswordChanged(it))
+                    },
+                    isError = state.passwordError != null,
+                    label = { Text(text = "Password") },
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.White
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                    visualTransformation = if (showPassword) VisualTransformation.None
+                    else PasswordVisualTransformation(),
+                    trailingIcon = {
+                        if (state.password.isNotEmpty()) {
+                            val image =
+                                if (showPassword) painterResource(id = R.drawable.ic_visibility_off)
+                                else painterResource(id = R.drawable.ic_visibility)
 
-                        val description = if (showPassword) "Hide password" else "Show password"
+                            val description = if (showPassword) "Hide password" else "Show password"
 
-                        IconButton(onClick = { showPassword = !showPassword }) {
-                            Icon(painter = image, description)
+                            IconButton(onClick = { showPassword = !showPassword }) {
+                                Icon(painter = image, description)
+                            }
                         }
                     }
+                )
+                if (state.passwordError != null) {
+                    Text(
+                        text = state.passwordError,
+                        color = MaterialTheme.colors.error,
+                        modifier = Modifier.align(Alignment.End)
+                    )
                 }
-            )
-            if (state.passwordError != null) {
-                Text(
-                    text = state.passwordError,
-                    color = MaterialTheme.colors.error,
-                    modifier = Modifier.align(Alignment.End)
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = {},
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = ButtonDefaults.buttonColors(Green)
+                ) {
+                    Text(text = "Generate Password")
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = state.website,
+                    onValueChange = {
+                        addPasswordViewModel.onEvent(AddPasswordFormEvent.WebsiteChanged(it))
+                    },
+                    label = { Text(text = "Website or App Name") },
+                    colors = TextFieldDefaults.textFieldColors(
+                        backgroundColor = Color.White
+                    ),
+                    isError = state.passwordError != null
                 )
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Button(
-                onClick = {},
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(Green)
-            ) {
-                Text(text = "Generate Password")
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            TextField(
-                modifier = Modifier.fillMaxWidth(),
-                value = state.website,
-                onValueChange = {
-                    addPasswordViewModel.onEvent(AddPasswordFormEvent.WebsiteChanged(it))
-                },
-                label = { Text(text = "Website or App Name") },
-                colors = TextFieldDefaults.textFieldColors(
-                    backgroundColor = Color.White
-                ),
-                isError = state.passwordError != null
-            )
-            if (state.websiteError != null) {
-                Text(
-                    text = state.websiteError,
-                    color = MaterialTheme.colors.error,
-                    modifier = Modifier.align(Alignment.End)
-                )
+                if (state.websiteError != null) {
+                    Text(
+                        text = state.websiteError,
+                        color = MaterialTheme.colors.error,
+                        modifier = Modifier.align(Alignment.End)
+                    )
+                }
             }
         }
-    }
+    )
 }
