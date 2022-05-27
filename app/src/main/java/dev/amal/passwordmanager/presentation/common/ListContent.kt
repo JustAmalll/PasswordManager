@@ -5,13 +5,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,14 +19,20 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.amal.passwordmanager.data.models.Password
 import dev.amal.passwordmanager.navigation.Screen
+import dev.amal.passwordmanager.presentation.home.HomeViewModel
+import dev.amal.passwordmanager.presentation.viewmodel.SharedViewModel
 import dev.amal.passwordmanager.ui.theme.TextGray
 import dev.amal.passwordmanager.utils.RequestState
+import kotlinx.coroutines.launch
 import java.util.*
 
+@ExperimentalMaterialApi
 @Composable
 fun ListContent(
     items: RequestState<List<Password>>,
-    navController: NavHostController
+    navController: NavHostController,
+    modalBottomSheetState: ModalBottomSheetState,
+    sharedViewModel: SharedViewModel
 ) {
     if (items is RequestState.Success) {
         if (items.data.isEmpty())
@@ -38,11 +42,16 @@ fun ListContent(
                 modifier = Modifier.padding(top = 14.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
-                this.items(
+                items(
                     items = items.data,
                     key = { item -> item.id }
                 ) { item ->
-                    Item(item = item, navController = navController)
+                    Item(
+                        item = item,
+                        navController = navController,
+                        modalBottomSheetState = modalBottomSheetState,
+                        sharedViewModel = sharedViewModel
+                    )
                 }
             }
         }
@@ -50,11 +59,17 @@ fun ListContent(
 }
 
 
+@ExperimentalMaterialApi
 @Composable
 fun Item(
     item: Password,
-    navController: NavHostController
+    navController: NavHostController,
+    modalBottomSheetState: ModalBottomSheetState,
+    sharedViewModel: SharedViewModel
 ) {
+
+    val scope = rememberCoroutineScope()
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,7 +112,12 @@ fun Item(
             }
             IconButton(
                 modifier = Modifier.padding(end = 10.dp),
-                onClick = {  }
+                onClick = {
+                    sharedViewModel.onSelectedItem(item)
+                    scope.launch {
+                        modalBottomSheetState.show()
+                    }
+                }
             ) {
                 Icon(
                     imageVector = Icons.Default.MoreVert,

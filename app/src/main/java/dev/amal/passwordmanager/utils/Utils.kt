@@ -22,10 +22,6 @@ fun copyText(text: String, context: Context) {
     clipboard.setPrimaryClip(clip)
 }
 
-fun toast(text: String, context: Context) {
-    Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
-}
-
 class SnackBarAppState(
     val scaffoldState: ScaffoldState,
     val snackBarScope: CoroutineScope,

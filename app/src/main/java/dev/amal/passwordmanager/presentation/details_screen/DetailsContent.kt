@@ -29,7 +29,6 @@ import dev.amal.passwordmanager.data.models.Password
 import dev.amal.passwordmanager.ui.theme.BackGroundColor
 import dev.amal.passwordmanager.ui.theme.TextGray
 import dev.amal.passwordmanager.utils.copyText
-import dev.amal.passwordmanager.utils.toast
 import java.util.*
 
 @Composable

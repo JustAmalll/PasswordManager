@@ -1,5 +1,6 @@
 package dev.amal.passwordmanager.navigation
 
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -12,6 +13,7 @@ import dev.amal.passwordmanager.presentation.home.HomeScreen
 import dev.amal.passwordmanager.presentation.search_screen.SearchScreen
 import dev.amal.passwordmanager.utils.Constants.DETAILS_ARGUMENT_KEY
 
+@ExperimentalMaterialApi
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
@@ -22,7 +24,7 @@ fun SetupNavGraph(
         startDestination = Screen.HomeScreen.route
     ) {
         composable(route = Screen.HomeScreen.route) {
-            HomeScreen(navController = navController)
+            HomeScreen(navController = navController, showSnackBar = showSnackBar)
         }
         composable(
             route = Screen.Details.route,
