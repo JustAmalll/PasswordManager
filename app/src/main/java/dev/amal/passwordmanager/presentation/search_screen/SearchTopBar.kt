@@ -8,7 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -23,12 +23,15 @@ fun SearchTopBar(
     searchViewModel: SearchViewModel,
     navController: NavHostController
 ) {
+
+    val state = searchViewModel.searchTextState
+
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 10.dp)
             .padding(horizontal = 10.dp),
-        value = searchViewModel.searchTextState.value,
+        value = state.value,
         onValueChange = {
             searchViewModel.onEvent(SearchItemEvent.OnSearchQueryChange(it))
         },
@@ -53,14 +56,16 @@ fun SearchTopBar(
             }
         },
         trailingIcon = {
-            IconButton(
-                onClick = { }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Close,
-                    contentDescription = "Clear",
-                    tint = Color.Black
-                )
+            if (state.value.isNotEmpty()) {
+                IconButton(
+                    onClick = { state.value = "" }
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Close,
+                        contentDescription = "Clear",
+                        tint = Color.Black
+                    )
+                }
             }
         },
         keyboardOptions = KeyboardOptions(
