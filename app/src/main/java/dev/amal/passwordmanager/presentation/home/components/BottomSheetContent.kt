@@ -24,7 +24,7 @@ import java.util.*
 @Composable
 fun BottomSheetContent(
     selectedItem: Password,
-    onLaunchWebsite: () -> Unit,
+    onLaunchWebsite: (String) -> Unit,
     onCopyEmail: (String) -> Unit,
     onCopyPassword: (String) -> Unit,
     onEdit: (Password) -> Unit,
@@ -73,7 +73,7 @@ fun BottomSheetContent(
         Divider(modifier = Modifier.padding(vertical = 8.dp))
         BottomSheetItem(
             imageVector = Icons.Default.ArrowForward,
-            action = { onLaunchWebsite() },
+            action = { onLaunchWebsite(selectedItem.website) },
             text = "Launch Website"
         )
         BottomSheetItem(

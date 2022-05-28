@@ -1,5 +1,9 @@
 package dev.amal.passwordmanager.presentation.add_password
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.webkit.URLUtil
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue

@@ -3,6 +3,9 @@ package dev.amal.passwordmanager.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.webkit.URLUtil
 import android.widget.Toast
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarDuration
@@ -49,4 +52,15 @@ fun rememberSnackBarAppState(
         navController = navController,
         snackBarScope = snackBarScope
     )
+}
+
+fun launchWebSite(uri: String, context: Context) {
+    if (URLUtil.isValidUrl(uri)) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
+        context.startActivity(intent)
+    } else {
+        val validatedUri = "https://$uri.com"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(validatedUri))
+        context.startActivity(intent)
+    }
 }
