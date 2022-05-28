@@ -35,7 +35,7 @@ fun SetupNavGraph(
             DetailsScreen(navController = navController, showSnackBar = showSnackBar)
         }
         composable(route = Screen.SearchScreen.route) {
-            SearchScreen(navController = navController)
+            SearchScreen(navController = navController, showSnackBar = showSnackBar)
         }
         composable(route = Screen.AddPassword.route) {
             AddPasswordScreen(navController = navController, showSnackBar = showSnackBar)

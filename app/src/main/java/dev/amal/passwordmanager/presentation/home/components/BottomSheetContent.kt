@@ -37,7 +37,7 @@ fun BottomSheetContent(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 14.dp, start = 12.dp, bottom = 6.dp),
+                .padding(top = 14.dp, start = 14.dp, bottom = 6.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Card(
@@ -102,7 +102,7 @@ fun BottomSheetContent(
             action = { onDelete(selectedItem) },
             text = "Delete"
         )
-        Spacer(modifier = Modifier.padding(bottom = 4.dp))
+        Spacer(modifier = Modifier.padding(bottom = 6.dp))
     }
 }
 
@@ -118,9 +118,7 @@ fun BottomSheetItem(
             .clickable { action() }
     ) {
         Row(
-            modifier = Modifier
-                .padding(start = 12.dp)
-                .padding(vertical = 10.dp)
+            modifier = Modifier.padding(start = 14.dp, top = 12.dp, bottom = 12.dp)
         ) {
             Icon(imageVector = imageVector, contentDescription = "Action")
             Spacer(modifier = Modifier.width(12.dp))

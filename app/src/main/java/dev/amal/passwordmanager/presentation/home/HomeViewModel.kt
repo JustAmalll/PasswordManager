@@ -44,10 +44,4 @@ class HomeViewModel @Inject constructor(
             _allItems.value = RequestState.Error(e)
         }
     }
-
-    fun deleteTask(password: Password) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteTask(password = password)
-        }
-    }
 }

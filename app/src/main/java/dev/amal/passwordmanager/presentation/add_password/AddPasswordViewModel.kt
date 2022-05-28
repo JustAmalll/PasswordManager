@@ -48,7 +48,7 @@ class AddPasswordViewModel @Inject constructor(
         }
     }
 
-    fun addItem() {
+    private fun addItem() {
         viewModelScope.launch(Dispatchers.IO) {
             val password = Password(
                 title = state.title,

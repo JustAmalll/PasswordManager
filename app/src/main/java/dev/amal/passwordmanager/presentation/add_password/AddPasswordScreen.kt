@@ -137,9 +137,7 @@ fun AddPasswordScreen(
                         modifier = Modifier.align(Alignment.End)
                     )
                 }
-
                 Spacer(modifier = Modifier.height(16.dp))
-
                 TextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = state.password,
@@ -198,7 +196,7 @@ fun AddPasswordScreen(
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.White
                     ),
-                    isError = state.passwordError != null
+                    isError = state.websiteError != null
                 )
                 if (state.websiteError != null) {
                     Text(

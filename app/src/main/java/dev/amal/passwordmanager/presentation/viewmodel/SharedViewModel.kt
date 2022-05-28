@@ -4,10 +4,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.amal.passwordmanager.data.models.Password
+import dev.amal.passwordmanager.data.repositories.PasswordRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SharedViewModel: ViewModel() {
+@HiltViewModel
+class SharedViewModel @Inject constructor(
+    private val repository: PasswordRepository
+): ViewModel() {
 
     var selectedItem by mutableStateOf(
         Password(
@@ -22,6 +30,12 @@ class SharedViewModel: ViewModel() {
 
     fun onSelectedItem(password: Password) {
         selectedItem = password
+    }
+
+    fun deleteTask(password: Password) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteTask(password = password)
+        }
     }
 
 }

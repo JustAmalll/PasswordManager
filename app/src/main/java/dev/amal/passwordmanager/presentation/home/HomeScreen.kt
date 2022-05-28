@@ -9,21 +9,17 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import dev.amal.passwordmanager.StandardToolbar
 import dev.amal.passwordmanager.navigation.Screen
 import dev.amal.passwordmanager.presentation.common.ListContent
-import dev.amal.passwordmanager.presentation.home.components.BottomSheetContent
 import dev.amal.passwordmanager.presentation.home.components.SearchButton
 import dev.amal.passwordmanager.presentation.viewmodel.SharedViewModel
-import dev.amal.passwordmanager.utils.copyText
-import kotlinx.coroutines.launch
+import dev.amal.passwordmanager.presentation.home.components.ModalBottomSheetLayout
 
 @ExperimentalMaterialApi
 @Composable
@@ -34,10 +30,6 @@ fun HomeScreen(
     showSnackBar: (String) -> Unit,
 ) {
 
-    val context = LocalContext.current
-
-    val scope = rememberCoroutineScope()
-
     val allItems by homeViewModel.allItems.collectAsState()
 
     val modalBottomSheetState = rememberModalBottomSheetState(
@@ -45,35 +37,9 @@ fun HomeScreen(
     )
 
     ModalBottomSheetLayout(
-        sheetState = modalBottomSheetState,
-        sheetContent = {
-            BottomSheetContent(
-                selectedItem = sharedViewModel.selectedItem,
-                onLaunchWebsite = {},
-                onCopyEmail = {
-                    copyText(text = it, context)
-                    showSnackBar("Email/Username copied to clipboard")
-                    scope.launch {
-                        modalBottomSheetState.hide()
-                    }
-                },
-                onCopyPassword = {
-                    copyText(text = it, context)
-                    showSnackBar("Password copied to clipboard")
-                    scope.launch {
-                        modalBottomSheetState.hide()
-                    }
-                },
-                onEdit = {},
-                onShare = {},
-                onDelete = {
-                    homeViewModel.deleteTask(it)
-                    scope.launch {
-                        modalBottomSheetState.hide()
-                    }
-                }
-            )
-        }
+        sharedViewModel = sharedViewModel,
+        showSnackBar = showSnackBar,
+        modalBottomSheetState = modalBottomSheetState
     ) {
         Scaffold(
             topBar = {
@@ -121,10 +87,5 @@ fun HomeScreen(
             }
         )
     }
-}
-
-@Composable
-fun BottomSheetContent() {
-
 }
 
