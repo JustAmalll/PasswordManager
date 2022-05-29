@@ -114,9 +114,7 @@ fun AddPasswordScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
-
                 TextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = state.email,
