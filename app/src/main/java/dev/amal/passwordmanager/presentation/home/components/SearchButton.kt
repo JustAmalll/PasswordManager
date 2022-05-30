@@ -2,10 +2,7 @@ package dev.amal.passwordmanager.presentation.home.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -32,7 +29,7 @@ fun SearchButton(
             backgroundColor = MainGray,
             contentColor = Gray
         ),
-        shape = RoundedCornerShape(size = 18.dp)
+        shape = RoundedCornerShape(size = 22.dp)
     ) {
         Row(
             modifier = Modifier
@@ -43,7 +40,7 @@ fun SearchButton(
         ) {
             Icon(imageVector = Icons.Default.Search, contentDescription = "Search")
             Spacer(modifier = Modifier.width(16.dp))
-            Text(text = "Search")
+            Text(text = "Search", color = Gray)
         }
     }
 }

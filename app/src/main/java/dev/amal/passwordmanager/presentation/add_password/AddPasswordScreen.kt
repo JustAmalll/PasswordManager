@@ -12,10 +12,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.input.*
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -92,22 +93,23 @@ fun AddPasswordScreen(
                     onValueChange = {
                         addPasswordViewModel.onEvent(AddPasswordFormEvent.TitleChanged(it))
                     },
+                    singleLine = true,
                     isError = state.titleError != null,
                     label = { Text(text = "Title") },
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.White
-                    )
+                    ),
+                    textStyle = MaterialTheme.typography.h3
                 )
                 if (state.titleError != null) {
                     Text(
                         text = state.titleError,
                         color = MaterialTheme.colors.error,
+                        style = MaterialTheme.typography.body2,
                         modifier = Modifier.align(Alignment.End)
                     )
                 }
-
                 Spacer(modifier = Modifier.height(22.dp))
-
                 Text(
                     text = "Password Details",
                     color = Color.Black,
@@ -121,12 +123,14 @@ fun AddPasswordScreen(
                     onValueChange = {
                         addPasswordViewModel.onEvent(AddPasswordFormEvent.EmailChanged(it))
                     },
+                    singleLine = true,
                     isError = state.emailError != null,
                     label = { Text(text = "Email or Username") },
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.White
                     ),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+                    textStyle = MaterialTheme.typography.h3
                 )
                 if (state.emailError != null) {
                     Text(
@@ -147,6 +151,8 @@ fun AddPasswordScreen(
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.White
                     ),
+                    singleLine = true,
+                    textStyle = MaterialTheme.typography.h4,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     visualTransformation = if (showPassword) VisualTransformation.None
                     else PasswordVisualTransformation(),
@@ -171,9 +177,7 @@ fun AddPasswordScreen(
                         modifier = Modifier.align(Alignment.End)
                     )
                 }
-
                 Spacer(modifier = Modifier.height(16.dp))
-
                 Button(
                     onClick = {},
                     modifier = Modifier.fillMaxWidth(),
@@ -181,9 +185,7 @@ fun AddPasswordScreen(
                 ) {
                     Text(text = "Generate Password")
                 }
-
                 Spacer(modifier = Modifier.height(16.dp))
-
                 TextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = state.website,
@@ -194,6 +196,8 @@ fun AddPasswordScreen(
                     colors = TextFieldDefaults.textFieldColors(
                         backgroundColor = Color.White
                     ),
+                    singleLine = true,
+                    textStyle = MaterialTheme.typography.h3,
                     isError = state.websiteError != null
                 )
                 if (state.websiteError != null) {

@@ -1,7 +1,8 @@
 package dev.amal.passwordmanager.navigation
 
 sealed class Screen(val route: String) {
-    object AuthScreen : Screen("auth_screen")
+    object LoginScreen : Screen("login_screen")
+    object RegisterScreen : Screen("register_screen")
     object HomeScreen : Screen("home_screen")
     object Details : Screen("details_screen/{itemId}") {
         fun passItemId(itemId: Int): String = "details_screen/$itemId"

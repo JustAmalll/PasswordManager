@@ -10,6 +10,7 @@ val Teal200 = Color(0xFF03DAC5)
 val BackGroundColor = Color(0xEBEBEBEB)
 val Green = Color(0xFFD0F4DE)
 
+val TextWhite = Color(0xFFEEEEEE)
 val TextGray = Color(0xFF808080)
 val MediumGray = Color(0xFF9C9C9C)
 
