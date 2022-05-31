@@ -1,6 +1,7 @@
-package dev.amal.passwordmanager.presentation.add_password
+package dev.amal.passwordmanager.feature_add_password.presentation
 
 data class AddPasswordFormState(
+    val isLoading: Boolean = false,
     val title: String = "",
     val titleError: String? = null,
     val email: String = "",

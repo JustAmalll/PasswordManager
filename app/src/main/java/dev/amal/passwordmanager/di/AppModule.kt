@@ -7,12 +7,8 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.amal.passwordmanager.feature_auth.data.remote.AuthApi
-import dev.amal.passwordmanager.feature_auth.domain.repository.AuthRepository
-import dev.amal.passwordmanager.feature_auth.data.repository.AuthRepositoryImpl
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.create
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
 
 @Module
@@ -21,21 +17,26 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideAuthApi(): AuthApi =
-        Retrofit.Builder()
-            .baseUrl("http://192.168.1.13:8080/")
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-            .create()
+    fun provideOkHttpClient(
+        sharedPreferences: SharedPreferences
+    ): OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor {
+            val token = sharedPreferences.getString("jwt", "")
+            val modifiedRequest = it.request().newBuilder()
+                .addHeader("Authorization", "Bearer $token")
+                .build()
+            it.proceed(modifiedRequest)
+        }
+        .addInterceptor(
+            HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            }
+        )
+        .build()
 
     @Provides
     @Singleton
     fun provideSharedPref(app: Application): SharedPreferences =
         app.getSharedPreferences("prefs", MODE_PRIVATE)
-
-    @Provides
-    @Singleton
-    fun provideAuthRepository(api: AuthApi, prefs: SharedPreferences): AuthRepository =
-        AuthRepositoryImpl(api, prefs)
 
 }

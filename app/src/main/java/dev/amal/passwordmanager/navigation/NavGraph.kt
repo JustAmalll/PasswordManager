@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import dev.amal.passwordmanager.feature_auth.presentation.login.LoginScreen
 import dev.amal.passwordmanager.feature_auth.presentation.register.RegisterScreen
-import dev.amal.passwordmanager.presentation.add_password.AddPasswordScreen
+import dev.amal.passwordmanager.feature_add_password.presentation.AddPasswordScreen
 import dev.amal.passwordmanager.presentation.details_screen.DetailsScreen
 import dev.amal.passwordmanager.presentation.home.HomeScreen
 import dev.amal.passwordmanager.presentation.search_screen.SearchScreen
