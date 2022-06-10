@@ -7,7 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import dev.amal.passwordmanager.presentation.common.ListContent
-import dev.amal.passwordmanager.presentation.viewmodel.SharedViewModel
 import dev.amal.passwordmanager.presentation.home.components.ModalBottomSheetLayout
 
 @ExperimentalMaterialApi
@@ -15,8 +14,7 @@ import dev.amal.passwordmanager.presentation.home.components.ModalBottomSheetLay
 fun SearchScreen(
     navController: NavHostController,
     searchViewModel: SearchViewModel = hiltViewModel(),
-    sharedViewModel: SharedViewModel = hiltViewModel(),
-    showSnackBar: (String) -> Unit,
+    showSnackBar: (String) -> Unit
 ) {
 
     val searchedTasks by searchViewModel.searchedTasks.collectAsState()
@@ -26,7 +24,6 @@ fun SearchScreen(
     )
 
     ModalBottomSheetLayout(
-        sharedViewModel = sharedViewModel,
         showSnackBar = showSnackBar,
         modalBottomSheetState = modalBottomSheetState
     ) {
@@ -41,8 +38,7 @@ fun SearchScreen(
                 ListContent(
                     items = searchedTasks,
                     navController = navController,
-                    modalBottomSheetState = modalBottomSheetState,
-                    sharedViewModel = sharedViewModel
+                    modalBottomSheetState = modalBottomSheetState
                 )
             }
         )

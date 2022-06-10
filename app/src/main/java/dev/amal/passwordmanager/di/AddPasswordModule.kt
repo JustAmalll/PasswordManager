@@ -9,6 +9,7 @@ import dev.amal.passwordmanager.feature_add_password.data.repository.AddPassword
 import dev.amal.passwordmanager.feature_add_password.domain.repository.AddPasswordRepository
 import dev.amal.passwordmanager.feature_add_password.domain.use_case.AddPasswordUseCase
 import dev.amal.passwordmanager.feature_add_password.domain.use_case.AddPasswordUseCases
+import dev.amal.passwordmanager.feature_add_password.domain.use_case.GetPasswordsUseCase
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,7 +22,7 @@ object AddPasswordModule {
     @Provides
     @Singleton
     fun provideAddPasswordApi(client: OkHttpClient): AddPasswordApi = Retrofit.Builder()
-        .baseUrl("http://192.168.1.13:8080/")
+        .baseUrl("http://192.168.1.11:8080/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -37,6 +38,7 @@ object AddPasswordModule {
     fun provideUseCases(
         repository: AddPasswordRepository
     ): AddPasswordUseCases = AddPasswordUseCases(
+        getPasswordsUseCase = GetPasswordsUseCase(repository),
         addPasswordUseCase = AddPasswordUseCase(repository)
     )
 }

@@ -25,7 +25,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.NavHostController
 import dev.amal.passwordmanager.R
 import dev.amal.passwordmanager.StandardToolbar
-import dev.amal.passwordmanager.data.models.Password
+import dev.amal.passwordmanager.core.domain.models.Password
 import dev.amal.passwordmanager.ui.theme.BackGroundColor
 import dev.amal.passwordmanager.ui.theme.TextGray
 import dev.amal.passwordmanager.utils.copyText

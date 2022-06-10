@@ -1,4 +1,4 @@
-package dev.amal.passwordmanager.feature_auth.presentation
+package dev.amal.passwordmanager.core.domain.states
 
 data class AuthState(
     val isLoading: Boolean = false,

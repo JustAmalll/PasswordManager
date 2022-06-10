@@ -1,4 +1,4 @@
-package dev.amal.passwordmanager.feature_add_password.presentation
+package dev.amal.passwordmanager.core.domain.states
 
 data class AddPasswordFormState(
     val isLoading: Boolean = false,

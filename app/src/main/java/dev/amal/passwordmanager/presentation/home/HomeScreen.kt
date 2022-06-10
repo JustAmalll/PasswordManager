@@ -1,48 +1,41 @@
 package dev.amal.passwordmanager.presentation.home
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import dev.amal.passwordmanager.StandardToolbar
 import dev.amal.passwordmanager.navigation.Screen
-import dev.amal.passwordmanager.presentation.common.ListContent
-import dev.amal.passwordmanager.presentation.home.components.SearchButton
-import dev.amal.passwordmanager.presentation.viewmodel.SharedViewModel
+import dev.amal.passwordmanager.presentation.common.Item
 import dev.amal.passwordmanager.presentation.home.components.ModalBottomSheetLayout
+import dev.amal.passwordmanager.presentation.home.components.SearchButton
 
 @ExperimentalMaterialApi
 @Composable
 fun HomeScreen(
     navController: NavHostController,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    sharedViewModel: SharedViewModel = hiltViewModel(),
-    showSnackBar: (String) -> Unit,
+    showSnackBar: (String) -> Unit
 ) {
 
-    val allItems by homeViewModel.allItems.collectAsState()
+    val passwords = homeViewModel.passwords.collectAsLazyPagingItems()
 
     val modalBottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden
     )
 
     ModalBottomSheetLayout(
-        sharedViewModel = sharedViewModel,
         showSnackBar = showSnackBar,
         modalBottomSheetState = modalBottomSheetState
     ) {
@@ -82,12 +75,17 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     SearchButton(navController = navController)
-                    ListContent(
-                        items = allItems,
-                        navController = navController,
-                        modalBottomSheetState = modalBottomSheetState,
-                        sharedViewModel = sharedViewModel
-                    )
+                    LazyColumn {
+                        items(passwords) { password ->
+                            password?.let {
+                                Item(
+                                    item = password,
+                                    navController = navController,
+                                    modalBottomSheetState = modalBottomSheetState
+                                )
+                            }
+                        }
+                    }
                 }
             }
         )

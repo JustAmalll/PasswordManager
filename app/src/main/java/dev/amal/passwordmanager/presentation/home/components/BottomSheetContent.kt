@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.amal.passwordmanager.data.models.Password
+import dev.amal.passwordmanager.core.domain.models.Password
 import dev.amal.passwordmanager.ui.theme.TextGray
 import java.util.*
 

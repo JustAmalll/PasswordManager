@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.amal.passwordmanager.core.domain.states.AuthState
 import dev.amal.passwordmanager.feature_auth.domain.repository.AuthRepository
 import dev.amal.passwordmanager.feature_auth.domain.models.AuthResult
 import kotlinx.coroutines.channels.Channel

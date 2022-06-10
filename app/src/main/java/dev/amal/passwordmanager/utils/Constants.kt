@@ -5,6 +5,7 @@ object Constants {
     const val DATABASE_NAME = "password_manager_database"
 
     const val DETAILS_ARGUMENT_KEY = "itemId"
-    const val BOTTOM_SHEET_ARGUMENT_KEY = "bottomItemId"
+
+    const val DEFAULT_PAGE_SIZE = 20
 
 }

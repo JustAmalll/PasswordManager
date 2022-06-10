@@ -18,10 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import dev.amal.passwordmanager.data.models.Password
-import dev.amal.passwordmanager.navigation.Screen
-import dev.amal.passwordmanager.presentation.home.HomeViewModel
-import dev.amal.passwordmanager.presentation.viewmodel.SharedViewModel
+import dev.amal.passwordmanager.core.domain.models.Password
 import dev.amal.passwordmanager.ui.theme.TextGray
 import dev.amal.passwordmanager.utils.RequestState
 import kotlinx.coroutines.launch
@@ -32,8 +29,7 @@ import java.util.*
 fun ListContent(
     items: RequestState<List<Password>>,
     navController: NavHostController,
-    modalBottomSheetState: ModalBottomSheetState,
-    sharedViewModel: SharedViewModel
+    modalBottomSheetState: ModalBottomSheetState
 ) {
     if (items is RequestState.Success) {
         if (items.data.isEmpty())
@@ -50,8 +46,7 @@ fun ListContent(
                     Item(
                         item = item,
                         navController = navController,
-                        modalBottomSheetState = modalBottomSheetState,
-                        sharedViewModel = sharedViewModel
+                        modalBottomSheetState = modalBottomSheetState
                     )
                 }
             }
@@ -65,8 +60,7 @@ fun ListContent(
 fun Item(
     item: Password,
     navController: NavHostController,
-    modalBottomSheetState: ModalBottomSheetState,
-    sharedViewModel: SharedViewModel
+    modalBottomSheetState: ModalBottomSheetState
 ) {
 
     val scope = rememberCoroutineScope()
@@ -75,9 +69,7 @@ fun Item(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {
-                navController.navigate(Screen.Details.passItemId(itemId = item.id))
-            },
+            .clickable {},
         verticalAlignment = Alignment.CenterVertically
     ) {
         Card(
@@ -116,7 +108,6 @@ fun Item(
                 modifier = Modifier.padding(end = 10.dp),
                 onClick = {
                     focusManager.clearFocus()
-                    sharedViewModel.onSelectedItem(item)
                     scope.launch {
                         modalBottomSheetState.show()
                     }
