@@ -13,18 +13,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.*
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import dev.amal.passwordmanager.R
 import dev.amal.passwordmanager.StandardToolbar
+import dev.amal.passwordmanager.core.presentation.ui.theme.Green
+import dev.amal.passwordmanager.core.presentation.ui.theme.MainGray
 import dev.amal.passwordmanager.core.utils.Resource
 import dev.amal.passwordmanager.navigation.Screen
-import dev.amal.passwordmanager.ui.theme.Green
-import dev.amal.passwordmanager.ui.theme.MainGray
-import kotlinx.coroutines.flow.collect
 
 @Composable
 fun AddPasswordScreen(
@@ -88,7 +89,6 @@ fun AddPasswordScreen(
                     .padding(horizontal = 16.dp)
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
-
                 TextField(
                     modifier = Modifier.fillMaxWidth(),
                     value = state.title,

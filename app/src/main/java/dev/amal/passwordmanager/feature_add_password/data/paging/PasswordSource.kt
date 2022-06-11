@@ -18,8 +18,7 @@ class PasswordSource(
         return try {
             val nextPage = params.key ?: currentPage
             val activities = api.getPasswords(
-                page = nextPage,
-                pageSize = Constants.DEFAULT_PAGE_SIZE
+                page = nextPage, pageSize = Constants.DEFAULT_PAGE_SIZE
             )
             LoadResult.Page(
                 data = activities,

@@ -1,6 +1,5 @@
 package dev.amal.passwordmanager.feature_auth.presentation.register
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,34 +20,25 @@ import dev.amal.passwordmanager.feature_auth.domain.models.AuthResult
 import dev.amal.passwordmanager.feature_auth.presentation.AuthUiEvent
 import dev.amal.passwordmanager.feature_auth.presentation.AuthViewModel
 import dev.amal.passwordmanager.navigation.Screen
-import kotlinx.coroutines.flow.collect
 
 @Composable
 fun RegisterScreen(
     navController: NavHostController,
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel(),
+    showSnackBar: (String) -> Unit
 ) {
     val state = viewModel.state
     val context = LocalContext.current
+
     LaunchedEffect(viewModel, context) {
         viewModel.authResults.collect { result ->
             when (result) {
                 is AuthResult.Authorized -> {
                     navController.navigate(Screen.HomeScreen.route)
                 }
-                is AuthResult.Unauthorized -> {
-                    Toast.makeText(
-                        context,
-                        "You're not authorized",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                is AuthResult.Unauthorized -> {}
                 is AuthResult.UnknownError -> {
-                    Toast.makeText(
-                        context,
-                        "An unknown error occurred",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    showSnackBar("An unknown error occurred")
                 }
             }
         }
@@ -73,9 +63,7 @@ fun RegisterScreen(
                     viewModel.onEvent(AuthUiEvent.SignUpUsernameChanged(it))
                 },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = {
-                    Text(text = "Username")
-                }
+                placeholder = { Text(text = "Username") }
             )
             Spacer(modifier = Modifier.height(16.dp))
             TextField(
@@ -84,9 +72,7 @@ fun RegisterScreen(
                     viewModel.onEvent(AuthUiEvent.SignUpPasswordChanged(it))
                 },
                 modifier = Modifier.fillMaxWidth(),
-                placeholder = {
-                    Text(text = "Password")
-                }
+                placeholder = { Text(text = "Password") }
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(

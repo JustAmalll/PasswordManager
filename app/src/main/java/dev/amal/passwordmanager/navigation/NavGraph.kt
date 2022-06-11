@@ -7,12 +7,12 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import dev.amal.passwordmanager.feature_add_password.presentation.AddPasswordScreen
 import dev.amal.passwordmanager.feature_auth.presentation.login.LoginScreen
 import dev.amal.passwordmanager.feature_auth.presentation.register.RegisterScreen
-import dev.amal.passwordmanager.feature_add_password.presentation.AddPasswordScreen
-import dev.amal.passwordmanager.presentation.details_screen.DetailsScreen
-import dev.amal.passwordmanager.presentation.home.HomeScreen
-import dev.amal.passwordmanager.presentation.search_screen.SearchScreen
+import dev.amal.passwordmanager.feature_details.presentation.DetailsScreen
+import dev.amal.passwordmanager.feature_home.presentation.HomeScreen
+import dev.amal.passwordmanager.feature_search.presentation.SearchScreen
 import dev.amal.passwordmanager.utils.Constants.DETAILS_ARGUMENT_KEY
 
 @ExperimentalMaterialApi
@@ -26,10 +26,10 @@ fun SetupNavGraph(
         startDestination = Screen.LoginScreen.route
     ) {
         composable(route = Screen.LoginScreen.route) {
-            LoginScreen(navController = navController)
+            LoginScreen(navController = navController, showSnackBar = showSnackBar)
         }
         composable(route = Screen.RegisterScreen.route) {
-            RegisterScreen(navController = navController)
+            RegisterScreen(navController = navController, showSnackBar = showSnackBar)
         }
         composable(route = Screen.HomeScreen.route) {
             HomeScreen(navController = navController, showSnackBar = showSnackBar)

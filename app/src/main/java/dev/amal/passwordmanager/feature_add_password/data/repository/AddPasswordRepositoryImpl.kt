@@ -22,9 +22,9 @@ class AddPasswordRepositoryImpl(
 ) : AddPasswordRepository {
 
     override val passwords: Flow<PagingData<Password>>
-        get() = Pager(PagingConfig(pageSize = Constants.DEFAULT_PAGE_SIZE)) {
-            PasswordSource(api)
-        }.flow
+        get() = Pager(PagingConfig(
+            pageSize = Constants.DEFAULT_PAGE_SIZE)
+        ) { PasswordSource(api) }.flow
 
     override suspend fun addPassword(
         title: String, email: String, password: String, website: String

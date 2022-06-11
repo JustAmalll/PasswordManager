@@ -13,26 +13,18 @@ class AddPasswordUseCase(
     suspend operator fun invoke(
         title: String, email: String, password: String, website: String
     ): SimpleResource {
-        if (title.isBlank()) {
-            return Resource.Error(
-                uiText = UiText.StringResource(R.string.error_title_blank)
-            )
-        }
-        if (email.isBlank()) {
-            return Resource.Error(
-                uiText = UiText.StringResource(R.string.error_email_blank)
-            )
-        }
-        if (password.isBlank()) {
-            return Resource.Error(
-                uiText = UiText.StringResource(R.string.error_password_blank)
-            )
-        }
-        if (website.isBlank()) {
-            return Resource.Error(
-                uiText = UiText.StringResource(R.string.error_website_blank)
-            )
-        }
+        if (title.isBlank()) return Resource.Error(
+            uiText = UiText.StringResource(R.string.error_title_blank)
+        )
+        if (email.isBlank()) return Resource.Error(
+            uiText = UiText.StringResource(R.string.error_email_blank)
+        )
+        if (password.isBlank()) return Resource.Error(
+            uiText = UiText.StringResource(R.string.error_password_blank)
+        )
+        if (website.isBlank()) return Resource.Error(
+            uiText = UiText.StringResource(R.string.error_website_blank)
+        )
         return repository.addPassword(title, email, password, website)
     }
 }

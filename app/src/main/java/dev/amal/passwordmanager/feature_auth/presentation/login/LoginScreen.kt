@@ -1,6 +1,5 @@
 package dev.amal.passwordmanager.feature_auth.presentation.login
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,12 +20,12 @@ import dev.amal.passwordmanager.feature_auth.domain.models.AuthResult
 import dev.amal.passwordmanager.feature_auth.presentation.AuthUiEvent
 import dev.amal.passwordmanager.feature_auth.presentation.AuthViewModel
 import dev.amal.passwordmanager.navigation.Screen
-import kotlinx.coroutines.flow.collect
 
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel(),
+    showSnackBar: (String) -> Unit
 ) {
     val state = viewModel.state
     val context = LocalContext.current
@@ -37,19 +36,9 @@ fun LoginScreen(
                 is AuthResult.Authorized -> {
                     navController.navigate(Screen.HomeScreen.route)
                 }
-                is AuthResult.Unauthorized -> {
-                    Toast.makeText(
-                        context,
-                        "You're not authorized",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+                is AuthResult.Unauthorized -> {}
                 is AuthResult.UnknownError -> {
-                    Toast.makeText(
-                        context,
-                        "An unknown error occurred",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    showSnackBar("An unknown error occurred")
                 }
             }
         }

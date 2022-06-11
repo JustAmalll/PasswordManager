@@ -14,7 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 import dev.amal.passwordmanager.navigation.SetupNavGraph
-import dev.amal.passwordmanager.ui.theme.PasswordManagerTheme
+import dev.amal.passwordmanager.core.presentation.ui.theme.PasswordManagerTheme
 import dev.amal.passwordmanager.utils.SnackBarAppState
 import dev.amal.passwordmanager.utils.rememberSnackBarAppState
 
