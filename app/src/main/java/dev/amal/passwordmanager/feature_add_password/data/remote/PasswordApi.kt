@@ -9,7 +9,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 
-interface AddPasswordApi {
+interface PasswordApi {
 
     @GET("/user/passwords")
     suspend fun getPasswords(
@@ -21,5 +21,10 @@ interface AddPasswordApi {
     suspend fun addPassword(
         @Body title: AddPasswordRequest
     ): BasicApiResponse<Unit>
+
+    @GET("/password/details")
+    suspend fun getPasswordDetails(
+        @Query("passwordId") passwordId: String
+    ): BasicApiResponse<Password>
 
 }

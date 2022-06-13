@@ -35,9 +35,9 @@ fun SetupNavGraph(
             HomeScreen(navController = navController, showSnackBar = showSnackBar)
         }
         composable(
-            route = Screen.Details.route,
+            route = Screen.DetailsScreen.route,
             arguments = listOf(navArgument(DETAILS_ARGUMENT_KEY) {
-                type = NavType.IntType
+                type = NavType.StringType
             })
         ) {
             DetailsScreen(navController = navController, showSnackBar = showSnackBar)

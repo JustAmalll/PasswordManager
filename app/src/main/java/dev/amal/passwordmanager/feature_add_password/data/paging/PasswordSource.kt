@@ -3,13 +3,13 @@ package dev.amal.passwordmanager.feature_add_password.data.paging
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import dev.amal.passwordmanager.core.domain.models.Password
-import dev.amal.passwordmanager.feature_add_password.data.remote.AddPasswordApi
+import dev.amal.passwordmanager.feature_add_password.data.remote.PasswordApi
 import dev.amal.passwordmanager.utils.Constants
 import retrofit2.HttpException
 import java.io.IOException
 
 class PasswordSource(
-    private val api: AddPasswordApi
+    private val api: PasswordApi
 ) : PagingSource<Int, Password>() {
 
     private var currentPage = 0

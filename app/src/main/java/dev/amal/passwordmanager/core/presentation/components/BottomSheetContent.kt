@@ -1,4 +1,4 @@
-package dev.amal.passwordmanager.presentation.home.components
+package dev.amal.passwordmanager.core.presentation.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

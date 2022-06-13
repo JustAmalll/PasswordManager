@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.amal.passwordmanager.core.domain.states.AddPasswordFormState
 import dev.amal.passwordmanager.core.utils.Resource
-import dev.amal.passwordmanager.feature_add_password.domain.use_case.AddPasswordUseCases
+import dev.amal.passwordmanager.feature_add_password.domain.use_case.PasswordUseCases
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddPasswordViewModel @Inject constructor(
-    private val useCases: AddPasswordUseCases
+    private val useCases: PasswordUseCases
 ) : ViewModel() {
 
     var state by mutableStateOf(AddPasswordFormState())

@@ -6,11 +6,13 @@ import dev.amal.passwordmanager.core.utils.Resource
 import dev.amal.passwordmanager.core.utils.SimpleResource
 import kotlinx.coroutines.flow.Flow
 
-interface AddPasswordRepository {
+interface PasswordRepository {
 
     val passwords: Flow<PagingData<Password>>
 
     suspend fun addPassword(
         title: String, email: String, password: String, website: String
     ): SimpleResource
+
+    suspend fun getPasswordDetails(passwordId: String): Resource<Password>
 }

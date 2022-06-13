@@ -1,12 +1,12 @@
 package dev.amal.passwordmanager.feature_add_password.domain.use_case
 
-import androidx.paging.PagingData
 import dev.amal.passwordmanager.core.domain.models.Password
+import dev.amal.passwordmanager.core.utils.Resource
 import dev.amal.passwordmanager.feature_add_password.domain.repository.PasswordRepository
-import kotlinx.coroutines.flow.Flow
 
-class GetPasswordsUseCase(
+class GetPasswordDetailsUseCase(
     private val repository: PasswordRepository
 ) {
-    operator fun invoke(): Flow<PagingData<Password>> = repository.passwords
+    suspend operator fun invoke(postId: String): Resource<Password> =
+        repository.getPasswordDetails(postId)
 }

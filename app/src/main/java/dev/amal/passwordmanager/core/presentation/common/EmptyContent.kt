@@ -1,4 +1,4 @@
-package dev.amal.passwordmanager.presentation.common
+package dev.amal.passwordmanager.core.presentation.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

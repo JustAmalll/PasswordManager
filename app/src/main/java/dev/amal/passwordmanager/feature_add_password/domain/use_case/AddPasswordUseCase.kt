@@ -4,10 +4,10 @@ import dev.amal.passwordmanager.R
 import dev.amal.passwordmanager.core.utils.Resource
 import dev.amal.passwordmanager.core.utils.SimpleResource
 import dev.amal.passwordmanager.core.utils.UiText
-import dev.amal.passwordmanager.feature_add_password.domain.repository.AddPasswordRepository
+import dev.amal.passwordmanager.feature_add_password.domain.repository.PasswordRepository
 
 class AddPasswordUseCase(
-    private val repository: AddPasswordRepository
+    private val repository: PasswordRepository
 ) {
 
     suspend operator fun invoke(

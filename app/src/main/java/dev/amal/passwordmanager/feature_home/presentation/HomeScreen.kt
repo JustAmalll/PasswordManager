@@ -15,10 +15,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import dev.amal.passwordmanager.StandardToolbar
+import dev.amal.passwordmanager.core.presentation.common.Item
+import dev.amal.passwordmanager.core.presentation.common.ListContent
+import dev.amal.passwordmanager.core.presentation.components.ModalBottomSheetLayout
+import dev.amal.passwordmanager.core.presentation.components.StandardToolbar
 import dev.amal.passwordmanager.navigation.Screen
-import dev.amal.passwordmanager.presentation.common.Item
-import dev.amal.passwordmanager.presentation.home.components.ModalBottomSheetLayout
 import dev.amal.passwordmanager.presentation.home.components.SearchButton
 
 @ExperimentalMaterialApi
@@ -75,17 +76,11 @@ fun HomeScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     SearchButton(navController = navController)
-                    LazyColumn {
-                        items(passwords) { password ->
-                            password?.let {
-                                Item(
-                                    item = password,
-                                    navController = navController,
-                                    modalBottomSheetState = modalBottomSheetState
-                                )
-                            }
-                        }
-                    }
+                    ListContent(
+                        items = passwords,
+                        navController = navController,
+                        modalBottomSheetState = modalBottomSheetState
+                    )
                 }
             }
         )

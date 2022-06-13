@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import dev.amal.passwordmanager.R
-import dev.amal.passwordmanager.StandardToolbar
+import dev.amal.passwordmanager.core.presentation.components.StandardToolbar
 import dev.amal.passwordmanager.core.presentation.ui.theme.Green
 import dev.amal.passwordmanager.core.presentation.ui.theme.MainGray
 import dev.amal.passwordmanager.core.utils.Resource

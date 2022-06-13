@@ -1,10 +1,11 @@
-package dev.amal.passwordmanager.presentation.home.components
+package dev.amal.passwordmanager.core.presentation.components
 
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import dev.amal.passwordmanager.core.domain.models.Password
+import dev.amal.passwordmanager.core.presentation.components.BottomSheetContent
 import dev.amal.passwordmanager.utils.copyText
 import kotlinx.coroutines.launch
 import dev.amal.passwordmanager.utils.launchWebSite
@@ -25,7 +26,7 @@ fun ModalBottomSheetLayout(
         sheetState = modalBottomSheetState,
         sheetContent = {
             BottomSheetContent(
-                selectedItem = Password(id = "", "", "", "", "", ""),
+                selectedItem = Password(id = "", "", "", "", ""),
                 onLaunchWebsite = {
                     launchWebSite(it, context)
                 },

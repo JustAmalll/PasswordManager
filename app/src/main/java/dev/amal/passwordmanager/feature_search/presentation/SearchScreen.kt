@@ -6,8 +6,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import dev.amal.passwordmanager.presentation.common.ListContent
-import dev.amal.passwordmanager.presentation.home.components.ModalBottomSheetLayout
+import dev.amal.passwordmanager.core.presentation.common.ListContent
+import dev.amal.passwordmanager.core.presentation.components.ModalBottomSheetLayout
 
 @ExperimentalMaterialApi
 @Composable
@@ -35,11 +35,7 @@ fun SearchScreen(
                 )
             },
             content = {
-                ListContent(
-                    items = searchedTasks,
-                    navController = navController,
-                    modalBottomSheetState = modalBottomSheetState
-                )
+
             }
         )
     }

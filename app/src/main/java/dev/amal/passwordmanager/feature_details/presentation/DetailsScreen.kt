@@ -13,13 +13,13 @@ fun DetailsScreen(
     navController: NavHostController
 ) {
 
-    val selectedItem by detailsViewModel.selectedItem.collectAsState()
+    val state = detailsViewModel.state.value
 
-    selectedItem?.let { item ->
+    state.password?.let {
         DetailsContent(
+            showSnackBar = showSnackBar,
             navController = navController,
-            selectedItem = item,
-            showSnackBar = showSnackBar
+            selectedPassword = state.password
         )
     }
 

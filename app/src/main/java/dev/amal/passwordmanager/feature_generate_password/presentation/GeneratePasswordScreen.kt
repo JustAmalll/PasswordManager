@@ -1,4 +1,4 @@
-package dev.amal.passwordmanager.presentation.generate_password
+package dev.amal.passwordmanager.feature_generate_password.presentation
 
 import androidx.compose.runtime.Composable
 

@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import dev.amal.passwordmanager.R
-import dev.amal.passwordmanager.StandardToolbar
+import dev.amal.passwordmanager.core.presentation.components.StandardToolbar
 import dev.amal.passwordmanager.core.domain.models.Password
 import dev.amal.passwordmanager.core.presentation.ui.theme.BackGroundColor
 import dev.amal.passwordmanager.core.presentation.ui.theme.TextGray
@@ -29,7 +29,7 @@ import java.util.*
 fun DetailsContent(
     showSnackBar: (String) -> Unit,
     navController: NavHostController,
-    selectedItem: Password
+    selectedPassword: Password
 ) {
 
     val context = LocalContext.current
@@ -77,7 +77,7 @@ fun DetailsContent(
                                 contentAlignment = Alignment.Center
                             ) {
                                 Text(
-                                    text = selectedItem.title.take(2)
+                                    text = selectedPassword.title.take(2)
                                         .replaceFirstChar { it.titlecase(Locale.getDefault()) },
                                     maxLines = 1,
                                     fontSize = 23.sp,
@@ -87,7 +87,7 @@ fun DetailsContent(
                             }
                         }
                         Spacer(modifier = Modifier.height(8.dp))
-                        Text(text = selectedItem.title, fontWeight = FontWeight.Bold, fontSize = 24.sp)
+                        Text(text = selectedPassword.title, fontWeight = FontWeight.Bold, fontSize = 24.sp)
                         Spacer(modifier = Modifier.height(16.dp))
                     }
                 }
@@ -101,7 +101,7 @@ fun DetailsContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable(onClick = {
-                                copyText(selectedItem.email, context)
+                                copyText(selectedPassword.email, context)
                                 showSnackBar("Email or Username copied to clipboard")
                             })
                             .padding(start = 14.dp)
@@ -109,14 +109,14 @@ fun DetailsContent(
                     ) {
                         Text(text = "Email or Username", color = TextGray, fontSize = 14.sp)
                         Spacer(modifier = Modifier.height(2.dp))
-                        Text(text = selectedItem.email)
+                        Text(text = selectedPassword.email)
                     }
                     Divider()
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable(onClick = {
-                                copyText(selectedItem.password, context)
+                                copyText(selectedPassword.password, context)
                                 showSnackBar("Password copied to clipboard")
                             })
                             .padding(start = 14.dp, end = 8.dp)
@@ -127,12 +127,12 @@ fun DetailsContent(
                             Text(text = "Password", color = TextGray, fontSize = 14.sp)
                             Spacer(modifier = Modifier.height(2.dp))
                             if (showPassword) Text(
-                                text = selectedItem.password,
+                                text = selectedPassword.password,
                                 fontWeight = FontWeight.Bold
                             )
                             else {
                                 Row {
-                                    repeat(selectedItem.password.length) {
+                                    repeat(selectedPassword.password.length) {
                                         Text(text = "•")
                                     }
                                 }
@@ -153,7 +153,7 @@ fun DetailsContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable(onClick = {
-                                copyText(selectedItem.website, context)
+                                copyText(selectedPassword.website, context)
                                 showSnackBar("Website or Username copied to clipboard")
                             })
                             .padding(start = 14.dp)
@@ -161,7 +161,7 @@ fun DetailsContent(
                     ) {
                         Text(text = "Website or App Name", color = TextGray, fontSize = 14.sp)
                         Spacer(modifier = Modifier.height(2.dp))
-                        Text(text = selectedItem.website)
+                        Text(text = selectedPassword.website)
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))

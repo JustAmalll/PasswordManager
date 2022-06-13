@@ -1,4 +1,4 @@
-package dev.amal.passwordmanager
+package dev.amal.passwordmanager.core.presentation.components
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Icon

@@ -1,9 +1,8 @@
-package dev.amal.passwordmanager.presentation.common
+package dev.amal.passwordmanager.core.presentation.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -18,33 +17,32 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.items
 import dev.amal.passwordmanager.core.domain.models.Password
 import dev.amal.passwordmanager.core.presentation.ui.theme.TextGray
-import dev.amal.passwordmanager.utils.RequestState
+import dev.amal.passwordmanager.navigation.Screen
 import kotlinx.coroutines.launch
 import java.util.*
 
 @ExperimentalMaterialApi
 @Composable
 fun ListContent(
-    items: RequestState<List<Password>>,
+    items: LazyPagingItems<Password>,
     navController: NavHostController,
     modalBottomSheetState: ModalBottomSheetState
 ) {
-    if (items is RequestState.Success) {
-        if (items.data.isEmpty())
-            EmptyContent()
-        else {
-            LazyColumn(
-                modifier = Modifier.padding(top = 14.dp),
-                verticalArrangement = Arrangement.spacedBy(6.dp)
-            ) {
-                items(
-                    items = items.data,
-                    key = { item -> item.id }
-                ) { item ->
+    if (items.itemCount == 0)
+        EmptyContent()
+    else {
+        LazyColumn(
+            modifier = Modifier.padding(top = 14.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            items(items) { password ->
+                password?.let {
                     Item(
-                        item = item,
+                        item = password,
                         navController = navController,
                         modalBottomSheetState = modalBottomSheetState
                     )
@@ -69,7 +67,9 @@ fun Item(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable {},
+            .clickable {
+                navController.navigate(Screen.DetailsScreen.passItemId(itemId = item.id))
+            },
         verticalAlignment = Alignment.CenterVertically
     ) {
         Card(
@@ -108,9 +108,7 @@ fun Item(
                 modifier = Modifier.padding(end = 10.dp),
                 onClick = {
                     focusManager.clearFocus()
-                    scope.launch {
-                        modalBottomSheetState.show()
-                    }
+                    scope.launch { modalBottomSheetState.show() }
                 }
             ) {
                 Icon(
