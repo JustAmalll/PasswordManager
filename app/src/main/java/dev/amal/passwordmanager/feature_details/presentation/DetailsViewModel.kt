@@ -20,28 +20,24 @@ class DetailsViewModel @Inject constructor(
     var state = mutableStateOf(DetailState())
 
     init {
-        savedStateHandle.get<String>(Constants.DETAILS_ARGUMENT_KEY)?.let { itemId ->
-            loadPasswordDetails(itemId)
+        viewModelScope.launch {
+            savedStateHandle.get<String>(Constants.DETAILS_ARGUMENT_KEY)?.let { itemId ->
+                loadPasswordDetails(itemId)
+            }
         }
     }
 
     private fun loadPasswordDetails(passwordId: String) {
         viewModelScope.launch {
-            state.value = state.value.copy(
-                isLoading = true
-            )
-            val result = passwordUseCases.getPasswordDetailsUseCase(passwordId)
-            when (result) {
+            state.value = state.value.copy(isLoading = true)
+            when (val result = passwordUseCases.getPasswordDetailsUseCase(passwordId)) {
                 is Resource.Success -> {
                     state.value = state.value.copy(
-                        password = result.data,
-                        isLoading = false
+                        passwordItem = result.data, isLoading = false
                     )
                 }
                 is Resource.Error -> {
-                    state.value = state.value.copy(
-                        isLoading = false
-                    )
+                    state.value = state.value.copy(isLoading = false)
                     // showError SnackBar
                 }
             }

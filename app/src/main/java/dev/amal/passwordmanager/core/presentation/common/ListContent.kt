@@ -19,8 +19,9 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
-import dev.amal.passwordmanager.core.domain.models.Password
+import dev.amal.passwordmanager.core.domain.models.PasswordItem
 import dev.amal.passwordmanager.core.presentation.ui.theme.TextGray
+import dev.amal.passwordmanager.core.sharedViewModel.SharedViewModel
 import dev.amal.passwordmanager.navigation.Screen
 import kotlinx.coroutines.launch
 import java.util.*
@@ -28,9 +29,10 @@ import java.util.*
 @ExperimentalMaterialApi
 @Composable
 fun ListContent(
-    items: LazyPagingItems<Password>,
+    items: LazyPagingItems<PasswordItem>,
     navController: NavHostController,
-    modalBottomSheetState: ModalBottomSheetState
+    modalBottomSheetState: ModalBottomSheetState,
+    sharedViewModel: SharedViewModel
 ) {
     if (items.itemCount == 0)
         EmptyContent()
@@ -44,7 +46,8 @@ fun ListContent(
                     Item(
                         item = password,
                         navController = navController,
-                        modalBottomSheetState = modalBottomSheetState
+                        modalBottomSheetState = modalBottomSheetState,
+                        sharedViewModel = sharedViewModel
                     )
                 }
             }
@@ -56,9 +59,10 @@ fun ListContent(
 @ExperimentalMaterialApi
 @Composable
 fun Item(
-    item: Password,
+    item: PasswordItem,
     navController: NavHostController,
-    modalBottomSheetState: ModalBottomSheetState
+    modalBottomSheetState: ModalBottomSheetState,
+    sharedViewModel: SharedViewModel
 ) {
 
     val scope = rememberCoroutineScope()
@@ -107,6 +111,7 @@ fun Item(
             IconButton(
                 modifier = Modifier.padding(end = 10.dp),
                 onClick = {
+                    sharedViewModel.onSelectedItem(item)
                     focusManager.clearFocus()
                     scope.launch { modalBottomSheetState.show() }
                 }

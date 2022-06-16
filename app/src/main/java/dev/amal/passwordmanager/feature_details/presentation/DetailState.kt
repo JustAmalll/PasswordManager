@@ -1,8 +1,8 @@
 package dev.amal.passwordmanager.feature_details.presentation
 
-import dev.amal.passwordmanager.core.domain.models.Password
+import dev.amal.passwordmanager.core.domain.models.PasswordItem
 
 data class DetailState(
-    val password: Password? = null,
+    val passwordItem: PasswordItem? = null,
     val isLoading: Boolean = false
 )

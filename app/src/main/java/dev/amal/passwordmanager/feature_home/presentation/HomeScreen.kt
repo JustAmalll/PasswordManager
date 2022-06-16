@@ -2,7 +2,6 @@ package dev.amal.passwordmanager.feature_home.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -14,11 +13,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
-import dev.amal.passwordmanager.core.presentation.common.Item
 import dev.amal.passwordmanager.core.presentation.common.ListContent
 import dev.amal.passwordmanager.core.presentation.components.ModalBottomSheetLayout
 import dev.amal.passwordmanager.core.presentation.components.StandardToolbar
+import dev.amal.passwordmanager.core.sharedViewModel.SharedViewModel
 import dev.amal.passwordmanager.navigation.Screen
 import dev.amal.passwordmanager.presentation.home.components.SearchButton
 
@@ -27,6 +25,7 @@ import dev.amal.passwordmanager.presentation.home.components.SearchButton
 fun HomeScreen(
     navController: NavHostController,
     homeViewModel: HomeViewModel = hiltViewModel(),
+    sharedViewModel: SharedViewModel = hiltViewModel(),
     showSnackBar: (String) -> Unit
 ) {
 
@@ -38,7 +37,8 @@ fun HomeScreen(
 
     ModalBottomSheetLayout(
         showSnackBar = showSnackBar,
-        modalBottomSheetState = modalBottomSheetState
+        modalBottomSheetState = modalBottomSheetState,
+        selectedItem = sharedViewModel.selectedItem.value
     ) {
         Scaffold(
             topBar = {
@@ -79,7 +79,8 @@ fun HomeScreen(
                     ListContent(
                         items = passwords,
                         navController = navController,
-                        modalBottomSheetState = modalBottomSheetState
+                        modalBottomSheetState = modalBottomSheetState,
+                        sharedViewModel = sharedViewModel
                     )
                 }
             }

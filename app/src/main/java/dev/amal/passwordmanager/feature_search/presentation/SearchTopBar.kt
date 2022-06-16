@@ -8,7 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
@@ -24,16 +24,16 @@ fun SearchTopBar(
     navController: NavHostController
 ) {
 
-    val state = searchViewModel.searchTextState
+    val state = searchViewModel.searchFieldState.value
 
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 10.dp)
             .padding(horizontal = 10.dp),
-        value = state.value,
+        value = state.text,
         onValueChange = {
-            searchViewModel.onEvent(SearchItemEvent.OnSearchQueryChange(it))
+            searchViewModel.onEvent(SearchEvent.OnSearchQueryChange(it))
         },
         shape = RoundedCornerShape(30.dp),
         placeholder = {
@@ -56,9 +56,9 @@ fun SearchTopBar(
             }
         },
         trailingIcon = {
-            if (state.value.isNotEmpty()) {
+            if (state.text.isNotEmpty()) {
                 IconButton(
-                    onClick = { state.value = "" }
+                    onClick = { state.text = "" }
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Close,

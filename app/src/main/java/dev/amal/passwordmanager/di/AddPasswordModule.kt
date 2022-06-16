@@ -7,10 +7,7 @@ import dagger.hilt.components.SingletonComponent
 import dev.amal.passwordmanager.feature_add_password.data.remote.PasswordApi
 import dev.amal.passwordmanager.feature_add_password.data.repository.PasswordRepositoryImpl
 import dev.amal.passwordmanager.feature_add_password.domain.repository.PasswordRepository
-import dev.amal.passwordmanager.feature_add_password.domain.use_case.AddPasswordUseCase
-import dev.amal.passwordmanager.feature_add_password.domain.use_case.GetPasswordDetailsUseCase
-import dev.amal.passwordmanager.feature_add_password.domain.use_case.PasswordUseCases
-import dev.amal.passwordmanager.feature_add_password.domain.use_case.GetPasswordsUseCase
+import dev.amal.passwordmanager.feature_add_password.domain.use_case.*
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,7 +20,7 @@ object AddPasswordModule {
     @Provides
     @Singleton
     fun provideAddPasswordApi(client: OkHttpClient): PasswordApi = Retrofit.Builder()
-        .baseUrl("http://192.168.1.22:8080/")
+        .baseUrl("http://192.168.1.11:8080/")
         .client(client)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
@@ -41,6 +38,7 @@ object AddPasswordModule {
     ): PasswordUseCases = PasswordUseCases(
         getPasswordsUseCase = GetPasswordsUseCase(repository),
         addPasswordUseCase = AddPasswordUseCase(repository),
-        getPasswordDetailsUseCase = GetPasswordDetailsUseCase(repository)
+        getPasswordDetailsUseCase = GetPasswordDetailsUseCase(repository),
+        searchPasswordUseCase = SearchPasswordUseCase(repository)
     )
 }

@@ -9,7 +9,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val passwordUseCases: PasswordUseCases
+    passwordUseCases: PasswordUseCases
 ) : ViewModel() {
+
     val passwords = passwordUseCases.getPasswordsUseCase().cachedIn(viewModelScope)
+
 }

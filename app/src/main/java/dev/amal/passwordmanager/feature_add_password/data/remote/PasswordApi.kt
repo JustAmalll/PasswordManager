@@ -1,7 +1,8 @@
 package dev.amal.passwordmanager.feature_add_password.data.remote
 
 import dev.amal.passwordmanager.core.data.response.BasicApiResponse
-import dev.amal.passwordmanager.core.domain.models.Password
+import dev.amal.passwordmanager.core.data.response.PasswordDto
+import dev.amal.passwordmanager.core.domain.models.PasswordItem
 import dev.amal.passwordmanager.feature_add_password.data.remote.request.AddPasswordRequest
 import dev.amal.passwordmanager.utils.Constants
 import retrofit2.http.Body
@@ -15,7 +16,7 @@ interface PasswordApi {
     suspend fun getPasswords(
         @Query("page") page: Int = 0,
         @Query("pageSize") pageSize: Int = Constants.DEFAULT_PAGE_SIZE
-    ): List<Password>
+    ): List<PasswordItem>
 
     @POST("/add/password")
     suspend fun addPassword(
@@ -25,6 +26,11 @@ interface PasswordApi {
     @GET("/password/details")
     suspend fun getPasswordDetails(
         @Query("passwordId") passwordId: String
-    ): BasicApiResponse<Password>
+    ): BasicApiResponse<PasswordItem>
+
+    @GET("/password/search")
+    suspend fun searchPassword(
+        @Query("query") query: String
+    ): List<PasswordDto>
 
 }

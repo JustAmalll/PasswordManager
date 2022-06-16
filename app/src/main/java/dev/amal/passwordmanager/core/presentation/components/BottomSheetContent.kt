@@ -17,19 +17,19 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.amal.passwordmanager.core.domain.models.Password
+import dev.amal.passwordmanager.core.domain.models.PasswordItem
 import dev.amal.passwordmanager.core.presentation.ui.theme.TextGray
 import java.util.*
 
 @Composable
 fun BottomSheetContent(
-    selectedItem: Password,
+    selectedItem: PasswordItem,
     onLaunchWebsite: (String) -> Unit,
     onCopyEmail: (String) -> Unit,
     onCopyPassword: (String) -> Unit,
-    onEdit: (Password) -> Unit,
+    onEdit: (PasswordItem) -> Unit,
     onShare: () -> Unit,
-    onDelete: (Password) -> Unit
+    onDelete: (PasswordItem) -> Unit
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -108,8 +108,8 @@ fun BottomSheetContent(
 
 @Composable
 fun BottomSheetItem(
-    imageVector: ImageVector,
     action: () -> Unit,
+    imageVector: ImageVector,
     text: String
 ) {
     Box(
