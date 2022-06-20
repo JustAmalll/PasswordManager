@@ -1,10 +1,12 @@
 package dev.amal.passwordmanager.feature_search.presentation
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.amal.passwordmanager.core.domain.models.PasswordItem
 import dev.amal.passwordmanager.core.domain.states.StandardTextFieldState
 import dev.amal.passwordmanager.core.utils.Resource
 import dev.amal.passwordmanager.feature_add_password.domain.use_case.PasswordUseCases
@@ -38,7 +40,7 @@ class SearchViewModel @Inject constructor(
         _searchFieldState.value = searchFieldState.value.copy(text = query)
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(700L)
+            delay(300L)
             _searchState.value = searchState.value.copy(isLoading = true)
             when (val result = passwordUseCases.searchPasswordUseCase(query)) {
                 is Resource.Success -> {
@@ -57,5 +59,13 @@ class SearchViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    // For BottomSheet
+    val selectedItem: MutableState<PasswordItem> =
+        mutableStateOf(PasswordItem(id = "0", "Title", "Email", "pwd", "web"))
+
+    fun onSelectedItem(passwordItem: PasswordItem) {
+        selectedItem.value = passwordItem
     }
 }

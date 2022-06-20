@@ -38,7 +38,7 @@ class DetailsViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     state.value = state.value.copy(isLoading = false)
-                    // showError SnackBar
+                    // show error SnackBar
                 }
             }
         }

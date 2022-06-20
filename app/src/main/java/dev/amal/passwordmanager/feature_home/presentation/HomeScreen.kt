@@ -16,7 +16,6 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import dev.amal.passwordmanager.core.presentation.common.ListContent
 import dev.amal.passwordmanager.core.presentation.components.ModalBottomSheetLayout
 import dev.amal.passwordmanager.core.presentation.components.StandardToolbar
-import dev.amal.passwordmanager.core.sharedViewModel.SharedViewModel
 import dev.amal.passwordmanager.navigation.Screen
 import dev.amal.passwordmanager.presentation.home.components.SearchButton
 
@@ -25,7 +24,6 @@ import dev.amal.passwordmanager.presentation.home.components.SearchButton
 fun HomeScreen(
     navController: NavHostController,
     homeViewModel: HomeViewModel = hiltViewModel(),
-    sharedViewModel: SharedViewModel = hiltViewModel(),
     showSnackBar: (String) -> Unit
 ) {
 
@@ -38,7 +36,7 @@ fun HomeScreen(
     ModalBottomSheetLayout(
         showSnackBar = showSnackBar,
         modalBottomSheetState = modalBottomSheetState,
-        selectedItem = sharedViewModel.selectedItem.value
+        selectedItem = homeViewModel.selectedItem.value
     ) {
         Scaffold(
             topBar = {
@@ -80,7 +78,7 @@ fun HomeScreen(
                         items = passwords,
                         navController = navController,
                         modalBottomSheetState = modalBottomSheetState,
-                        sharedViewModel = sharedViewModel
+                        selectedItem = { homeViewModel.onSelectedItem(it) }
                     )
                 }
             }

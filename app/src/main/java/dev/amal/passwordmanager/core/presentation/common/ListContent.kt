@@ -21,7 +21,6 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import dev.amal.passwordmanager.core.domain.models.PasswordItem
 import dev.amal.passwordmanager.core.presentation.ui.theme.TextGray
-import dev.amal.passwordmanager.core.sharedViewModel.SharedViewModel
 import dev.amal.passwordmanager.navigation.Screen
 import kotlinx.coroutines.launch
 import java.util.*
@@ -32,7 +31,7 @@ fun ListContent(
     items: LazyPagingItems<PasswordItem>,
     navController: NavHostController,
     modalBottomSheetState: ModalBottomSheetState,
-    sharedViewModel: SharedViewModel
+    selectedItem: (PasswordItem) -> Unit
 ) {
     if (items.itemCount == 0)
         EmptyContent()
@@ -47,7 +46,7 @@ fun ListContent(
                         item = password,
                         navController = navController,
                         modalBottomSheetState = modalBottomSheetState,
-                        sharedViewModel = sharedViewModel
+                        selectedItem = selectedItem
                     )
                 }
             }
@@ -62,7 +61,7 @@ fun Item(
     item: PasswordItem,
     navController: NavHostController,
     modalBottomSheetState: ModalBottomSheetState,
-    sharedViewModel: SharedViewModel
+    selectedItem: (PasswordItem) -> Unit
 ) {
 
     val scope = rememberCoroutineScope()
@@ -72,6 +71,7 @@ fun Item(
         modifier = Modifier
             .fillMaxWidth()
             .clickable {
+                println(item.id)
                 navController.navigate(Screen.DetailsScreen.passItemId(itemId = item.id))
             },
         verticalAlignment = Alignment.CenterVertically
@@ -84,8 +84,9 @@ fun Item(
         ) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(
-                    text = item.title.take(2)
-                        .replaceFirstChar { it.titlecase(Locale.getDefault()) },
+                    text = item.title.take(2).replaceFirstChar {
+                        it.titlecase(Locale.getDefault())
+                    },
                     maxLines = 1,
                     fontSize = 12.sp
                 )
@@ -111,7 +112,7 @@ fun Item(
             IconButton(
                 modifier = Modifier.padding(end = 10.dp),
                 onClick = {
-                    sharedViewModel.onSelectedItem(item)
+                    selectedItem(item)
                     focusManager.clearFocus()
                     scope.launch { modalBottomSheetState.show() }
                 }

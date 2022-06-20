@@ -77,9 +77,7 @@ class PasswordRepositoryImpl(
         query: String
     ): Resource<List<PasswordItem>> = try {
         val response = api.searchPassword(query)
-        Resource.Success(
-            data = response.map { it.toPasswordItem() }
-        )
+        Resource.Success(data = response.map { it.toPasswordItem() })
     } catch (e: IOException) {
         Resource.Error(
             uiText = UiText.StringResource(R.string.error_couldnt_reach_server)
