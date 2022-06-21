@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.amal.passwordmanager.core.domain.states.AddPasswordFormState
 import dev.amal.passwordmanager.core.utils.Resource
-import dev.amal.passwordmanager.feature_add_password.domain.use_case.PasswordUseCases
+import dev.amal.passwordmanager.feature_add_password.domain.use_cases.PasswordUseCases
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -32,7 +32,7 @@ class AddPasswordViewModel @Inject constructor(
             is AddPasswordFormEvent.EmailChanged -> {
                 state = state.copy(email = event.email)
             }
-            is AddPasswordFormEvent.PasswordChanged -> {
+            is AddPasswordFormEvent.ItemChanged -> {
                 state = state.copy(password = event.password)
             }
             is AddPasswordFormEvent.WebsiteChanged -> {

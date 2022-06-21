@@ -1,4 +1,4 @@
-package dev.amal.passwordmanager.feature_add_password.domain.use_case
+package dev.amal.passwordmanager.feature_add_password.domain.use_cases
 
 import dev.amal.passwordmanager.core.domain.models.PasswordItem
 import dev.amal.passwordmanager.core.utils.Resource

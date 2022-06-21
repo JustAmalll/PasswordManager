@@ -9,7 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.amal.passwordmanager.core.domain.models.PasswordItem
 import dev.amal.passwordmanager.core.domain.states.StandardTextFieldState
 import dev.amal.passwordmanager.core.utils.Resource
-import dev.amal.passwordmanager.feature_add_password.domain.use_case.PasswordUseCases
+import dev.amal.passwordmanager.feature_add_password.domain.use_cases.PasswordUseCases
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

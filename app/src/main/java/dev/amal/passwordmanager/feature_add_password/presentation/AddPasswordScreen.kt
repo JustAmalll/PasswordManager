@@ -146,7 +146,7 @@ fun AddPasswordScreen(
                     modifier = Modifier.fillMaxWidth(),
                     value = state.password,
                     onValueChange = {
-                        addPasswordViewModel.onEvent(AddPasswordFormEvent.PasswordChanged(it))
+                        addPasswordViewModel.onEvent(AddPasswordFormEvent.ItemChanged(it))
                     },
                     isError = state.passwordError != null,
                     label = { Text(text = "Password") },

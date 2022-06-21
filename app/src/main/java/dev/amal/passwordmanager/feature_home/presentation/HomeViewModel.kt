@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.amal.passwordmanager.core.domain.models.PasswordItem
-import dev.amal.passwordmanager.feature_add_password.domain.use_case.PasswordUseCases
+import dev.amal.passwordmanager.feature_add_password.domain.use_cases.PasswordUseCases
 import javax.inject.Inject
 
 @HiltViewModel

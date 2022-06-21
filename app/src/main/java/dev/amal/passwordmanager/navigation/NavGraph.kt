@@ -7,6 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import dev.amal.passwordmanager.feature_add_card.AddCardScreen
 import dev.amal.passwordmanager.feature_add_password.presentation.AddPasswordScreen
 import dev.amal.passwordmanager.feature_auth.presentation.login.LoginScreen
 import dev.amal.passwordmanager.feature_auth.presentation.register.RegisterScreen
@@ -46,7 +47,10 @@ fun SetupNavGraph(
             SearchScreen(navController = navController, showSnackBar = showSnackBar)
         }
         composable(route = Screen.AddPassword.route) {
-            AddPasswordScreen(navController = navController, showSnackBar = showSnackBar)
+            AddCardScreen(navController = navController, showSnackBar = showSnackBar)
+        }
+        composable(route = Screen.AddCard.route) {
+            AddCardScreen(navController = navController, showSnackBar = showSnackBar)
         }
     }
 }

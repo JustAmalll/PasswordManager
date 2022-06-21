@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.amal.passwordmanager.core.utils.Resource
-import dev.amal.passwordmanager.feature_add_password.domain.use_case.PasswordUseCases
+import dev.amal.passwordmanager.feature_add_password.domain.use_cases.PasswordUseCases
 import dev.amal.passwordmanager.utils.Constants
 import kotlinx.coroutines.launch
 import javax.inject.Inject
